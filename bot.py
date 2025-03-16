@@ -3,7 +3,9 @@ import json
 from discord.ext import commands
 from discord import app_commands
 import time
+import os
 
+TOKEN = os.getenv("token")  # Lấy TOKEN từ biến môi trường
 ADMIN_CHANNEL_ID = 1350681415095816255  # Thay bằng ID kênh Discord admin để bot gửi tin nhắn
 STOCK_FILE = "stock.json"
 LEGIT_FILE = "legit.json"
@@ -263,4 +265,4 @@ async def on_ready():
 async def napthe(interaction: discord.Interaction):
     await interaction.response.send_modal(NapThe())
 
-bot.run("MTM1MDY3ODMyOTUyMjY1NTI4Mg.GHfXC5.zkqIIhiXDxSs92PYJUSPxtJ-FKjloRMci2flsI")
+bot.run(TOKEN)
