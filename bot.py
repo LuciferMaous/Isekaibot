@@ -263,4 +263,4 @@ async def on_ready():
 async def napthe(interaction: discord.Interaction):
     await interaction.response.send_modal(NapThe())
 
-bot.run(TOKEN)
+bot.run("MTM1MDY3ODMyOTUyMjY1NTI4Mg.GHfXC5.zkqIIhiXDxSs92PYJUSPxtJ-FKjloRMci2flsI")
