@@ -4,7 +4,6 @@ from discord.ext import commands
 from discord import app_commands
 import time
 
-TOKEN = "MTM1MDY3ODMyOTUyMjY1NTI4Mg.Gfx9aX.jV7yUwk1XyaAG14qPTF1Mtr3Wc9nnD7eX03lQ4"  # Thay bằng token bot của bạn
 ADMIN_CHANNEL_ID = 1350681415095816255  # Thay bằng ID kênh Discord admin để bot gửi tin nhắn
 STOCK_FILE = "stock.json"
 LEGIT_FILE = "legit.json"
