@@ -63,7 +63,7 @@ async def stock(interaction: discord.Interaction):
 
 @bot.tree.command(name="update_stock", description="Cập nhật số lượng hàng hóa trong kho (Admin).")
 @app_commands.describe(product="Tên sản phẩm", quantity="Số lượng mới")
-async def update_stock(interaction: discord.Interaction, product: str, quantity: int):
+async def update_stock(interaction: discord.Interaction, product: str, quantity: float):
     if interaction.user.id != ADMIN_ID:
         await interaction.response.send_message("⛔ Bạn không có quyền sử dụng lệnh này!", ephemeral=True)
         return
@@ -140,7 +140,7 @@ async def source(interaction: discord.Interaction):
 
 @bot.tree.command(name="update_source", description="Cập nhật số lượng source (Admin).")
 @app_commands.describe(product="Tên source", quantity="Số lượng mới")
-async def update_source(interaction: discord.Interaction, product: str, quantity: int):
+async def update_source(interaction: discord.Interaction, product: str, quantity: float):
     if interaction.user.id != ADMIN_ID:
         await interaction.response.send_message("⛔ Bạn không có quyền sử dụng lệnh này!", ephemeral=True)
         return
