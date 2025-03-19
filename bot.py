@@ -38,7 +38,7 @@ class StockSelect(discord.ui.View):
         stock_data = load_json(STOCK_FILE)
         self.clear_items()
         options = [
-            discord.SelectOption(label=item, description=f"Còn {quantity} cái", value=item)
+            discord.SelectOption(label=item, description=f"Giá: {quantity}k", value=item)
             for item, quantity in stock_data.items()
         ]
         self.select = discord.ui.Select(placeholder="Chọn sản phẩm để kiểm tra", options=options)
@@ -115,7 +115,7 @@ class SourceSelect(discord.ui.View):
         source_data = load_json(SOURCE_FILE)
         self.clear_items()
         options = [
-            discord.SelectOption(label=item, description=f"Còn {quantity} cái", value=item, emoji="📦")
+            discord.SelectOption(label=item, description=f"Giá: {quantity}k", value=item, emoji="📦")
             for item, quantity in source_data.items()
         ]
         self.select = discord.ui.Select(placeholder="Chọn source để kiểm tra", options=options)
@@ -129,7 +129,7 @@ class SourceSelect(discord.ui.View):
 
         embed = discord.Embed(
             title="📦 Kiểm Tra Source",
-            description=f"🔹 **{product}**: Còn `{quantity}` cái trong kho.",
+            description=f"🔹 **{product}**: Giá `{quantity}k`.",
             color=discord.Color.green()
         )
         await interaction.response.edit_message(embed=embed, view=self)
@@ -137,28 +137,6 @@ class SourceSelect(discord.ui.View):
 @bot.tree.command(name="source", description="Kiểm tra số lượng source có sẵn.")
 async def source(interaction: discord.Interaction):
     await interaction.response.send_message("📋 **Chọn source để kiểm tra:**", view=SourceSelect(), ephemeral=True)
-
-@bot.tree.command(name="update_source", description="Cập nhật số lượng source (Admin).")
-@app_commands.describe(product="Tên source", quantity="Số lượng mới")
-async def update_source(interaction: discord.Interaction, product: str, quantity: float):
-    if interaction.user.id != ADMIN_ID:
-        await interaction.response.send_message("⛔ Bạn không có quyền sử dụng lệnh này!", ephemeral=True)
-        return
-    
-    if quantity < 0:
-        await interaction.response.send_message("⚠ Số lượng không hợp lệ!", ephemeral=True)
-        return
-    
-    source_data = load_json(SOURCE_FILE)
-    source_data[product] = quantity
-    save_json(SOURCE_FILE, source_data)
-
-    embed = discord.Embed(
-        title="✅ Cập Nhật Source Thành Công!",
-        description=f"🔹 **{product}**: Còn `{quantity}` cái trong kho.",
-        color=discord.Color.green()
-    )
-    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.event
 async def on_ready():
