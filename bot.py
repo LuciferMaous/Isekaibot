@@ -115,7 +115,7 @@ class SourceSelect(discord.ui.View):
         source_data = load_json(SOURCE_FILE)
         self.clear_items()
         options = [
-            discord.SelectOption(label=item, description=f"Còn {quantity} cái", value=item)
+            discord.SelectOption(label=item, description=f"Còn {quantity} cái", value=item, emoji="📦")
             for item, quantity in source_data.items()
         ]
         self.select = discord.ui.Select(placeholder="Chọn source để kiểm tra", options=options)
