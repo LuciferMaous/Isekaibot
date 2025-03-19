@@ -29,30 +29,36 @@ def save_json(file_path, data):
     with open(file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4, ensure_ascii=False)
 
-class StockSelect(discord.ui.View):
+class SourceSelect(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=60)
         self.update_options()
 
     def update_options(self):
-        stock_data = load_json(STOCK_FILE)
+        source_data = load_json(SOURCE_FILE)
         self.clear_items()
+
+        if not source_data:  # Kiểm tra nếu source rỗng
+            self.add_item(discord.ui.Button(label="Không có source nào!", disabled=True))
+            return
+
         options = [
-            discord.SelectOption(label=item, description=f"Giá: {quantity}k", value=item)
-            for item, quantity in stock_data.items()
+            discord.SelectOption(label=f"📦 {item}", description=f"Giá: {quantity}k", value=item)
+            for item, quantity in source_data.items()
         ]
-        self.select = discord.ui.Select(placeholder="Chọn sản phẩm để kiểm tra", options=options)
+
+        self.select = discord.ui.Select(placeholder="Chọn source để kiểm tra", options=options)
         self.select.callback = self.select_callback
         self.add_item(self.select)
 
     async def select_callback(self, interaction: discord.Interaction):
-        stock_data = load_json(STOCK_FILE)
+        source_data = load_json(SOURCE_FILE)
         product = self.select.values[0]
-        quantity = stock_data.get(product, 0)
+        quantity = source_data.get(product, 0)
 
         embed = discord.Embed(
-            title="📦 Kiểm Tra Stock",
-            description=f"🔹 **{product}**: Còn `{quantity}` cái trong kho.",
+            title="📦 Kiểm Tra Source",
+            description=f"🔹 **{product}**: Giá `{quantity}`.",
             color=discord.Color.green()
         )
         await interaction.response.edit_message(embed=embed, view=self)
